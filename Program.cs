@@ -1,45 +1,51 @@
 ﻿using System;
 
+
 namespace SQLStatementBuilder
 {
     class Program
     {
         static void Main(string[] args)
         {
-            System.Console.WriteLine("What type of SQL statement would you like to create? Press D for delete, press I for insert, press S for select, or press U for update:");
+            var programInputOutput = new InputOutput();
+            programInputOutput.WriteStringOuput("What type of SQL statement would you like to create? Press D for delete, press I for insert, press S for select, or press U for update:");
+
             while (true)
             {
-                var userQueryTypeInput = Console.ReadLine();
-                if (userQueryTypeInput.Equals("D", StringComparison.OrdinalIgnoreCase))
+                var userQueryTypeInput = programInputOutput.ReadKeyInput();
+                if (userQueryTypeInput.Key == ConsoleKey.D)
                 {
-                    var finalDeleteQuery = QueryDeleter.BuildDeleteQuery();
-                    System.Console.WriteLine(finalDeleteQuery);
-                    QuerySaver.SaveCompletedQuery("Delete", finalDeleteQuery);
+                    Console.WriteLine();
+                    var newDeleteQuery = new QueryDeleter();
+                    newDeleteQuery.BuildDeleteQuery();
                     break;
                 }
-                else if (userQueryTypeInput.Equals("I", StringComparison.OrdinalIgnoreCase))
+                if (userQueryTypeInput.Key == ConsoleKey.I)
                 {
-                    var finalInsertQuery = QueryInserter.BuildInsertQuery();
-                    System.Console.WriteLine(finalInsertQuery);
-                    QuerySaver.SaveCompletedQuery("Insert", finalInsertQuery);
+                    Console.WriteLine();
+                    var newInsertQuery = new QueryInserter();
+                    newInsertQuery.BuildInsertQuery();
                     break;
                 }
-                else if (userQueryTypeInput.Equals("S", StringComparison.OrdinalIgnoreCase))
+                if (userQueryTypeInput.Key == ConsoleKey.S)
                 {
-                    var finalSelectQuery = QuerySelector.BuildSelectQuery();
-                    System.Console.WriteLine(finalSelectQuery);
-                    QuerySaver.SaveCompletedQuery("Select", finalSelectQuery);
+                    Console.WriteLine();
+                    var newSelectQuery = new QuerySelector();
+                    newSelectQuery.BuildSelectQuery();
                     break;
                 }
-                else if (userQueryTypeInput.Equals("U", StringComparison.OrdinalIgnoreCase))
+                if (userQueryTypeInput.Key == ConsoleKey.U)
                 {
-                    var finalUpdateQuery = QueryUpdater.BuildUpdateQuery();
-                    System.Console.WriteLine(finalUpdateQuery);
-                    QuerySaver.SaveCompletedQuery("Update", finalUpdateQuery);
+                    Console.WriteLine();
+                    var newUpdateQuery = new QueryUpdater();
+                    newUpdateQuery.BuildUpdateQuery();
                     break;
                 }
                 else
-                    System.Console.WriteLine("Please make a valid selection");
+                {
+                    Console.WriteLine();
+                    programInputOutput.WriteStringOuput("Please make a valid selection");
+                }
             }
         }
     }

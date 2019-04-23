@@ -1,16 +1,18 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 namespace SQLStatementBuilder
 {
     public class QuerySaver
     {
-        public static void SaveCompletedQuery(string queryType, string completedQuery)
+        InputOutput newQuerySaverInputOutput = new InputOutput();
+        public void SaveCompletedQuery(string queryType, string completedQuery)
         {
+            newQuerySaverInputOutput.WriteStringOuput($"The completed query is: {completedQuery}");
             File.WriteAllText($"C:\\temp\\{queryType}.{DateTime.Now.ToString("MMddyyyy.HHmmss")}.sql",completedQuery);
-            System.Console.WriteLine("The query has been saved successfully.");
+            newQuerySaverInputOutput.WriteStringOuput("The query has been saved successfully. Please press any key to close this window");
+            Console.ReadKey();
+            return;
         }
     }
 }

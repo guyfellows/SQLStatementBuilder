@@ -4,26 +4,24 @@ namespace SQLStatementBuilder
 {
     public class QueryDeleter : QueryBuilder
     {
-        static private string _deleteQueryFilter;
-
-        public static string BuildDeleteQuery()
+        public void BuildDeleteQuery()
         {
             SetQueryTable();
-            SetDeleteQueryFilter();
-            return ReturnCompleteDeleteQuery();
+            SetQueryFilter();
+            SaveCompleteDeleteQuery();
         }
-        private static void SetDeleteQueryFilter()
+        private void SaveCompleteDeleteQuery()
         {
-            System.Console.WriteLine("What filter would you like to use in the query:");
-            _deleteQueryFilter = Console.ReadLine();
-        }
-        private static string ReturnCompleteDeleteQuery()
-        {
-            if (String.IsNullOrWhiteSpace(_deleteQueryFilter))
-                return ($"DELETE FROM {_queryTable}");
+            if (String.IsNullOrWhiteSpace(_queryFilter))
+            {
+                var newSaveQuery = new QuerySaver();
+                newSaveQuery.SaveCompletedQuery("DELETE", ($"DELETE FROM {_queryTable}"));
+            }
             else
-                return ($"DELETE FROM {_queryTable} WHERE {_deleteQueryFilter}");
+            {
+                var newSaveQuery = new QuerySaver();
+                newSaveQuery.SaveCompletedQuery("DELETE", ($"DELETE FROM {_queryTable} WHERE {_queryFilter}"));
+            }
         }
-
     }
 }
